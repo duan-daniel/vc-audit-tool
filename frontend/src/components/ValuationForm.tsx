@@ -6,16 +6,47 @@ interface Props {
   loading: boolean;
 }
 
+type Unit = "B" | "M" | "K" | "$";
+
+const UNIT_MULTIPLIERS: Record<Unit, number> = {
+  B: 1_000_000_000,
+  M: 1_000_000,
+  K: 1_000,
+  $: 1,
+};
+
+function formatWithCommas(value: string): string {
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const parts = cleaned.split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.length > 1 ? `${parts[0]}.${parts[1]}` : parts[0];
+}
+
+function rawValue(display: string): string {
+  return display.replace(/,/g, "");
+}
+
 export default function ValuationForm({ onSubmit, loading }: Props) {
   const [companyName, setCompanyName] = useState("");
   const [valuation, setValuation] = useState("");
+  const [unit, setUnit] = useState<Unit>("M");
   const [roundDate, setRoundDate] = useState("");
+
+  const numericValue = parseFloat(rawValue(valuation)) || 0;
+  const absoluteValue = numericValue * UNIT_MULTIPLIERS[unit];
+
+  function handleValuationChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const raw = e.target.value.replace(/,/g, "");
+    if (raw === "" || /^\d*\.?\d*$/.test(raw)) {
+      setValuation(formatWithCommas(raw));
+    }
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     onSubmit({
       company_name: companyName,
-      last_post_money_valuation: parseFloat(valuation),
+      last_post_money_valuation: absoluteValue,
       last_round_date: roundDate,
     });
   }
@@ -34,17 +65,37 @@ export default function ValuationForm({ onSubmit, loading }: Props) {
         />
       </div>
       <div className="field">
-        <label htmlFor="valuation">Last Post-Money Valuation (USD)</label>
-        <input
-          id="valuation"
-          type="number"
-          value={valuation}
-          onChange={(e) => setValuation(e.target.value)}
-          placeholder="e.g. 50000000"
-          min="1"
-          step="any"
-          required
-        />
+        <label htmlFor="valuation">Last Post-Money Valuation</label>
+        <div className="valuation-input-group">
+          <span className="input-prefix">$</span>
+          <input
+            id="valuation"
+            type="text"
+            inputMode="decimal"
+            value={valuation}
+            onChange={handleValuationChange}
+            placeholder={unit === "M" ? "e.g. 50" : "e.g. 50,000,000"}
+            required
+            className="valuation-input"
+          />
+          <div className="unit-toggle">
+            {(["B", "M", "K", "$"] as Unit[]).map((u) => (
+              <button
+                key={u}
+                type="button"
+                className={`unit-btn ${unit === u ? "unit-btn-active" : ""}`}
+                onClick={() => setUnit(u)}
+              >
+                {u}
+              </button>
+            ))}
+          </div>
+        </div>
+        {numericValue > 0 && (
+          <div className="valuation-preview">
+            = ${absoluteValue.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+          </div>
+        )}
       </div>
       <div className="field">
         <label htmlFor="date">Last Round Date</label>
@@ -57,7 +108,7 @@ export default function ValuationForm({ onSubmit, loading }: Props) {
           required
         />
       </div>
-      <button type="submit" disabled={loading}>
+      <button type="submit" disabled={loading || numericValue <= 0}>
         {loading ? "Computing..." : "Compute Fair Value"}
       </button>
     </form>

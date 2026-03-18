@@ -65,6 +65,7 @@ class LastRoundValuation(ValuationMethodology):
             name="NASDAQ Composite (^IXIC)",
             description=f"Close price on {round_actual_date.isoformat()} via Yahoo Finance",
             accessed_date=date.today(),
+            url="https://finance.yahoo.com/quote/%5EIXIC/history/",
         ))
 
         # Step 3: Fetch latest index price
@@ -81,6 +82,7 @@ class LastRoundValuation(ValuationMethodology):
             name="NASDAQ Composite (^IXIC)",
             description=f"Close price on {today_actual_date.isoformat()} via Yahoo Finance",
             accessed_date=date.today(),
+            url="https://finance.yahoo.com/quote/%5EIXIC/history/",
         ))
 
         # Step 4: Compute market movement

@@ -69,6 +69,8 @@ class TestLastRoundValuation:
         assert result.methodology == "Last Round (Market-Adjusted)"
         assert len(result.audit_trail) == 6
         assert len(result.data_sources) == 2
+        for source in result.data_sources:
+            assert source.url == "https://finance.yahoo.com/quote/%5EIXIC/history/"
 
     @patch("engine.last_round.get_latest_index_price")
     @patch("engine.last_round.get_index_price")

@@ -31,6 +31,8 @@ class TestValuationEndpoint:
         assert body["methodology"] == "Last Round (Market-Adjusted)"
         assert len(body["audit_trail"]) == 6
         assert len(body["data_sources"]) == 2
+        for source in body["data_sources"]:
+            assert source["url"] == "https://finance.yahoo.com/quote/%5EIXIC/history/"
 
     def test_missing_field(self, mock_round, mock_latest):
         resp = client.post("/api/valuations", json={

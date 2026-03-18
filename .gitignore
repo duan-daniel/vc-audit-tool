@@ -10,6 +10,7 @@ build/
 # Node
 node_modules/
 frontend/dist/
+uv.lock
 
 # IDE
 .vscode/
@@ -21,3 +22,4 @@ frontend/dist/
 
 # Env
 .env
+.venv

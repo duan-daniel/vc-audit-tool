@@ -55,6 +55,85 @@ header h1 {
   box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.15);
 }
 
+/* Valuation input with unit toggle */
+.valuation-input-group {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.valuation-input-group:focus-within {
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.15);
+}
+
+.input-prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem 0 0.75rem;
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+}
+
+.valuation-input {
+  flex: 1;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-width: 0;
+}
+
+.valuation-input:focus {
+  box-shadow: none !important;
+}
+
+.unit-toggle {
+  display: flex;
+  border-left: 1px solid #e0e0e0;
+}
+
+.unit-btn {
+  padding: 0.5rem 0.65rem;
+  border: none;
+  background: #f8f9fa;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  border-left: 1px solid #e0e0e0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.unit-btn:first-child {
+  border-left: none;
+}
+
+.unit-btn:hover {
+  background: #e8ecf4;
+}
+
+.unit-btn-active {
+  background: #4a6cf7;
+  color: #fff;
+}
+
+.unit-btn-active:hover {
+  background: #3a5ce5;
+}
+
+.valuation-preview {
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: #4a6cf7;
+  font-weight: 500;
+}
+
 button[type="submit"] {
   width: 100%;
   padding: 0.65rem;
@@ -151,7 +230,7 @@ button[type="submit"]:disabled {
 }
 
 .section h3 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.75rem;
   font-size: 1rem;
   color: #333;
 }
@@ -163,26 +242,92 @@ button[type="submit"]:disabled {
   margin: 0;
 }
 
-/* Audit trail */
-.audit-trail {
-  padding-left: 1.25rem;
-  margin: 0;
+/* Audit trail timeline */
+.audit-timeline {
+  display: flex;
+  flex-direction: column;
 }
 
-.audit-trail li {
-  margin-bottom: 0.75rem;
-  font-size: 0.88rem;
-  line-height: 1.4;
+.audit-step {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.audit-trail li strong {
-  display: block;
-  color: #333;
+.step-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.step-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #4a6cf7;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-badge-positive {
+  background: #16a34a;
+}
+
+.step-badge-negative {
+  background: #dc2626;
+}
+
+.step-line {
+  width: 2px;
+  flex: 1;
+  background: #d4d4d8;
+  min-height: 12px;
+}
+
+.step-content {
+  flex: 1;
+  background: #fafbfc;
+  border: 1px solid #e8e8ec;
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-card-positive {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.step-card-negative {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.step-description {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.25rem;
 }
 
 .step-value {
+  font-size: 0.85rem;
   color: #555;
+  line-height: 1.45;
   word-break: break-word;
+}
+
+.step-formula {
+  font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+  font-weight: 500;
 }
 
 /* Sources */
@@ -200,6 +345,17 @@ button[type="submit"]:disabled {
 
 .sources li:last-child {
   border-bottom: none;
+}
+
+.source-link {
+  font-weight: 600;
+  color: #4a6cf7;
+  text-decoration: none;
+}
+
+.source-link:hover {
+  text-decoration: underline;
+  color: #3a5ce5;
 }
 
 .source-date {

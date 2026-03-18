@@ -17,6 +17,7 @@ class DataSource(BaseModel):
     name: str
     description: str
     accessed_date: date
+    url: str | None = None
 
 
 class ValuationResult(BaseModel):

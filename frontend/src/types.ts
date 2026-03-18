@@ -14,6 +14,7 @@ export interface DataSource {
   name: string;
   description: string;
   accessed_date: string;
+  url: string | null;
 }
 
 export interface ValuationResult {

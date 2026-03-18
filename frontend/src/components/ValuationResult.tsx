@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function ValuationResult({ result }: Props) {
+  const isPositive = result.market_movement_pct >= 0;
+
   return (
     <div className="result">
       <div className="result-header">
@@ -21,8 +23,8 @@ export default function ValuationResult({ result }: Props) {
         </div>
         <div className="meta">
           <span>Methodology: {result.methodology}</span>
-          <span className={result.market_movement_pct >= 0 ? "positive" : "negative"}>
-            Market Movement: {result.market_movement_pct >= 0 ? "+" : ""}
+          <span className={isPositive ? "positive" : "negative"}>
+            Market Movement: {isPositive ? "+" : ""}
             {result.market_movement_pct.toFixed(2)}%
           </span>
         </div>
@@ -35,14 +37,31 @@ export default function ValuationResult({ result }: Props) {
 
       <div className="section">
         <h3>Audit Trail</h3>
-        <ol className="audit-trail">
-          {result.audit_trail.map((step) => (
-            <li key={step.step_number}>
-              <strong>{step.description}</strong>
-              <span className="step-value">{step.value}</span>
-            </li>
-          ))}
-        </ol>
+        <div className="audit-timeline">
+          {result.audit_trail.map((step) => {
+            const isFormula = step.step_number === 4 || step.step_number === 5;
+            const isMarket = step.step_number === 4;
+
+            return (
+              <div key={step.step_number} className="audit-step">
+                <div className="step-connector">
+                  <span className={`step-badge ${isMarket ? (isPositive ? "step-badge-positive" : "step-badge-negative") : ""}`}>
+                    {step.step_number}
+                  </span>
+                  {step.step_number < result.audit_trail.length && (
+                    <div className="step-line" />
+                  )}
+                </div>
+                <div className={`step-content ${isMarket ? (isPositive ? "step-card-positive" : "step-card-negative") : ""}`}>
+                  <div className="step-description">{step.description}</div>
+                  <div className={`step-value ${isFormula ? "step-formula" : ""}`}>
+                    {step.value}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="section">
@@ -50,7 +69,14 @@ export default function ValuationResult({ result }: Props) {
         <ul className="sources">
           {result.data_sources.map((source, i) => (
             <li key={i}>
-              <strong>{source.name}</strong> &mdash; {source.description}
+              {source.url ? (
+                <a href={source.url} target="_blank" rel="noopener noreferrer" className="source-link">
+                  {source.name}
+                </a>
+              ) : (
+                <strong>{source.name}</strong>
+              )}
+              {" "}&mdash; {source.description}
               <span className="source-date">Accessed: {source.accessed_date}</span>
             </li>
           ))}
