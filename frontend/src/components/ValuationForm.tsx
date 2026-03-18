@@ -6,13 +6,18 @@ interface Props {
   loading: boolean;
 }
 
-type Unit = "B" | "M" | "K" | "$";
+type Unit = "B" | "M" | "$";
 
 const UNIT_MULTIPLIERS: Record<Unit, number> = {
   B: 1_000_000_000,
   M: 1_000_000,
-  K: 1_000,
   $: 1,
+};
+
+const UNIT_PLACEHOLDERS: Record<Unit, string> = {
+  B: "e.g. 1.5",
+  M: "e.g. 50",
+  $: "e.g. 50,000,000",
 };
 
 function formatWithCommas(value: string): string {
@@ -74,12 +79,12 @@ export default function ValuationForm({ onSubmit, loading }: Props) {
             inputMode="decimal"
             value={valuation}
             onChange={handleValuationChange}
-            placeholder={unit === "M" ? "e.g. 50" : "e.g. 50,000,000"}
+            placeholder={UNIT_PLACEHOLDERS[unit]}
             required
             className="valuation-input"
           />
           <div className="unit-toggle">
-            {(["B", "M", "K", "$"] as Unit[]).map((u) => (
+            {(["B", "M", "$"] as Unit[]).map((u) => (
               <button
                 key={u}
                 type="button"

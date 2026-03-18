@@ -310,24 +310,65 @@ button[type="submit"]:disabled {
 }
 
 .step-description {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #444;
-  margin-bottom: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.3rem;
 }
 
 .step-value {
-  font-size: 0.85rem;
-  color: #555;
-  line-height: 1.45;
+  font-size: 0.92rem;
+  color: #333;
+  line-height: 1.5;
   word-break: break-word;
 }
 
+/* Key-value list for step 1 inputs */
+.step-kv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.step-kv {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.step-kv-label {
+  color: #888;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.step-kv-val {
+  color: #1a1a2e;
+  font-weight: 600;
+}
+
+/* Prominent number in steps 2 & 3 */
+.step-number {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+  margin-top: 0.1rem;
+}
+
+/* Formula steps 4 & 5 */
 .step-formula {
   font-family: "SF Mono", "Fira Code", "Consolas", monospace;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: #1a1a2e;
   font-weight: 500;
+  background: #f4f4f8;
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
 }
 
 /* Sources */
